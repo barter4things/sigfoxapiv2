@@ -186,7 +186,12 @@ class Sigfox:
         )
 
     def get_device_messages(
-        self, device_id: str, since: datetime.datetime = None
+        self,
+        device_id: str,
+        since: int = None,
+        before: int = None,
+        limit: int = 100,
+        offset: int = 0,
     ) -> Tuple[int, dict]:
         """
         Gets all the devices of a particular device type
@@ -198,7 +203,9 @@ class Sigfox:
         """
         if since:
             return self._make_api_get(
-                make_sigfox_url(f"/devices/{device_id}/messages?since={since}")
+                make_sigfox_url(
+                    f"/devices/{device_id}/messages?since={since}&before={before}&limit={limit}&offset={offset}"
+                )
             )
         return self._make_api_get(make_sigfox_url(f"/devices/{device_id}/messages"))
 
